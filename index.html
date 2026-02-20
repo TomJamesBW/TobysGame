@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Chalkboard', cursive, sans-serif;
+            font-family: 'Chalkboard SE', 'Chalkboard', 'Arial Rounded MT Bold', 'Trebuchet MS', 'Comic Sans MS', Arial, sans-serif;
             overflow: hidden;
             background: #87CEEB;
         }
@@ -36,6 +36,8 @@
             align-items: center;
             justify-content: center;
             z-index: 100;
+            overflow-y: auto;
+            padding: 20px 0;
         }
 
         #menu h1 {
@@ -397,18 +399,25 @@
             text-shadow: 4px 4px 0 #8B0000, -2px -2px 0 #8B0000;
         }
 
-        #quit-hint {
+        #quit-btn {
             position: absolute;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
-            padding: 10px 20px;
-            border-radius: 10px;
+            left: 20px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #EE5A5A 100%);
+            border: none;
+            padding: 12px 22px;
+            font-size: 1.3rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
             color: white;
-            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #AA2222, 0 6px 15px rgba(0,0,0,0.25);
             z-index: 60;
+            transition: transform 0.1s, box-shadow 0.1s;
         }
+        #quit-btn:hover { transform: scale(1.05); }
+        #quit-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 #AA2222; }
 
         #timer-display {
             position: absolute;
@@ -616,6 +625,23 @@
             border-radius: 10px;
         }
 
+        /* Compact vertical spacing for tablets in landscape / short viewports */
+        @media (max-height: 850px) {
+            #menu h1 { font-size: 2.8rem; margin-bottom: 8px; }
+            .menu-box { padding: 18px 40px; }
+            .menu-box h2 { font-size: 1.4rem; margin-bottom: 8px; }
+            .option-group { margin: 7px 0; }
+            .option-group label { font-size: 1.1rem; margin-bottom: 4px; }
+            .option-group select, .option-group input { font-size: 1rem; padding: 7px 14px; }
+            .name-section { margin: 8px 0; padding: 10px; }
+            .name-section label { margin-bottom: 6px; font-size: 1.1rem; }
+            .name-display { font-size: 1.5rem; min-height: 40px; padding: 7px 45px 7px 16px; margin-bottom: 8px; }
+            .key { height: 36px; font-size: 1rem; }
+            #start-btn { font-size: 1.6rem; padding: 13px 48px; margin-top: 10px; }
+            .top-score { margin-top: 10px; font-size: 1.2rem; }
+        }
+
+        /* Small phones */
         @media (max-width: 550px) {
             #menu h1 { font-size: 2.5rem; margin-bottom: 12px; }
             .menu-box { padding: 20px 25px; }
@@ -716,7 +742,7 @@
                 </div>
             </div>
 
-            <div id="quit-hint">Press <strong>Q</strong> to return to menu</div>
+            <button id="quit-btn">🏠 Menu</button>
         </div>
 
         <!-- Splash Screen -->
@@ -1405,6 +1431,8 @@
         helpBtn.addEventListener('click', showHelp);
         helpClose.addEventListener('click', closeHelp);
         helpOverlay.addEventListener('click', (e) => { if (e.target === helpOverlay) closeHelp(); });
+
+        document.getElementById('quit-btn').addEventListener('click', returnToMenu);
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'q' || e.key === 'Q') {
